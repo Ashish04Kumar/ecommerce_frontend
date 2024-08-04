@@ -1,15 +1,15 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom"; // Make sure to import useParams
+import { useProductContext } from "./context/ProductContext";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useProductContext } from "./context/productcontext";
 import PageNavigation from "./components/PageNavigation";
+import MyImage from "./components/MyImage";
+import Star  from "./components/Star";
 import { Container } from "./styles/Container";
-import FormatPrice from "./helper/FormatPrice";
+import FormatPrice from "./helpers/FormatPrice";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { MdSecurity } from "react-icons/md";
-import MyImage from "./components/MyImage";
-import Star from "./components/Star";
-import AddToCart from "./components/AddToCart";o
+import AddToCart from "./components/AddToCart";
 
 const API = "https://ecommerce-backend-2ybg.onrender.com/api/products";
 // const API = "https://api.pujakaitem.com/api/products"
@@ -31,32 +31,38 @@ const SingleProduct = () => {
     stock,
     stars,
     reviews,
-    image,
+    image
   } = singleProduct;
 
   useEffect(() => {
     getSingleProduct(`${API}?id=${id}`);
   }, []);
 
+
   if (isSingleLoading) {
-    return <div className="page_loading">Loading...</div>;
+    return (
+      <div>Loading.....</div>
+    )
   }
-  console.log(image);
+
   return (
     <Wrapper>
       <PageNavigation title={name} />
       <Container className="container">
         <div className="grid grid-two-column">
+          {/* product Images  */}
           <div className="product_images">
             <MyImage imgs={image} />
           </div>
+
+          {/* product dAta  */}
           <div className="product-data">
             <h2>{name}</h2>
-            <Star stars={stars} reviews={reviews} />
-            {/* <p>{stars}</p> */}
-            {/* <p>{reviews} reviews</p> */}
+            <Star stars={stars} reviews={reviews}/>
+            <p>{stars}</p>
+            <p>{reviews} reviews</p>
             <p className="product-data-price">
-              MRP:{" "}
+              MRP:
               <del>
                 <FormatPrice price={price + 250000} />
               </del>
@@ -78,7 +84,7 @@ const SingleProduct = () => {
 
               <div className="product-warranty-data">
                 <TbTruckDelivery className="warranty-icon" />
-                <p>Ashish Delivered </p>
+                <p>Thapa Delivered </p>
               </div>
 
               <div className="product-warranty-data">
@@ -88,25 +94,20 @@ const SingleProduct = () => {
             </div>
 
             <div className="product-data-info">
-              <span>
-                {" "}
-                <p>Available: {stock > 0 ? "In Stock" : "Not Available"}</p>
-              </span>
+              <p>Available: <span>{stock > 0 ? "In Stock" : "Not Available"}</span></p>
+              <p>
+                ID: <span> {id}
+                </span></p>
+              <p>Brand: <span>{company}</span></p>
 
-              <p>
-                ID: <span>{id}</span>
-              </p>
-              <p>
-                Brand: <span>{company}</span>
-              </p>
             </div>
             <hr />
-            {stock > 0 && <AddToCart product={singleProduct} />}
-          </div>
+            {stock > 0 && <AddToCart product = {singleProduct}/>}
+          </div>          
         </div>
       </Container>
     </Wrapper>
-  );
+  )
 };
 
 const Wrapper = styled.section`
