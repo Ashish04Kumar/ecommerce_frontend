@@ -4,7 +4,7 @@ import reducer from "../reducer/productReducer";
 
 const AppContext = createContext();
 
-const API = "https://api.pujakaitem.com/api/products";
+const API = "https://ecommerce-backend-2ybg.onrender.com/api/products";
 
 const initialState = {
   isLoading: false,
