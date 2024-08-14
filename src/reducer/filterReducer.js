@@ -68,7 +68,7 @@ const filterReducer = (state, action) => {
             filter_products: newSortData
            }
 
-case "UPDATE_FILTERS_VALUE":
+case "UPDATE_FILTERS_VALUE": 
     const {name, value} = action.payload;
     return {
         ...state,
@@ -84,16 +84,22 @@ case "UPDATE_FILTERS_VALUE":
        let {all_products} = state;
        let tempFilterProduct = [...all_products]
 
-         const {text, category} = state.filters;
+       //company me apple ayega ob
+         const {text, category, company} = state.filters;
          if(text) {
             tempFilterProduct = tempFilterProduct.filter((curElem) => {
                 return curElem.name.toLowerCase().includes(text)
             })
          }
 
-         if(category){
+         if(category !== 'all'){
             tempFilterProduct = tempFilterProduct.filter((curElem) => {
-                 return curElem.category === category
+                 return curElem.category === category.toLowerCase()
+            })
+         }
+         if(company !== 'all'){
+            tempFilterProduct = tempFilterProduct.filter((curElem) => {
+                 return curElem.company === company.toLowerCase()
             })
          }
 

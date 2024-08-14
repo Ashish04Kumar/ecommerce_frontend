@@ -9,13 +9,15 @@ import { useFilterContext } from "../context/FilterContext"
   //to get the unique data of each fields
   const getUniqueData = (data, property) => {
   let newVal = data.map((curElem) => {
-    return curElem[property];
+    return curElem[property]  ;
    });
     return newVal = ["All", ...new Set(newVal)]
   }
 
-   //we need unique data
+   //we need unique data 
   const categoryOnlyData = getUniqueData(all_products, "category");
+  const conmpanyData  = getUniqueData(all_products, "company");
+
 
 
     return (
@@ -35,6 +37,21 @@ import { useFilterContext } from "../context/FilterContext"
                      </button>
                 )
             })}</div>
+            </div>
+            <div className="filter-company">
+                <h3>Company</h3>
+                <form action="#">
+                     <select name="company" id="company" className="filter-company--select" onClick={updateFilterValue}>
+                       {conmpanyData.map((curElem, index) => {
+                        return (
+                             <option  key={index} name="company" value={curElem}> 
+                                {curElem}
+                             </option>
+                        )
+
+                       })}
+                     </select>
+                </form>
             </div>
         </Wrapper>
     )
