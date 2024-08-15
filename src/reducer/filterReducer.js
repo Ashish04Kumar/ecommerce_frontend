@@ -131,6 +131,21 @@ case "UPDATE_FILTERS_VALUE":
             filter_products: tempFilterProduct
            }
 
+           case "CLEAR_FILTERS":
+            return {
+                ...state,
+                filters:{
+                    ...state.filters,
+                           text: "",
+                           company: "all", 
+                           color: "all",
+                           maxPrice: state.filters.maxPrice,
+                           price: state.filters.maxPrice,
+                           minPrice: 0,
+                           category: "all",
+                }
+            }
+
         default: return state
     }
 }
