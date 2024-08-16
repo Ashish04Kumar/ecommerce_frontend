@@ -1,8 +1,32 @@
 import styled from "styled-components";
+import { useCartContext } from "./context/CartContext";
+import CartItem from "./components/CartItem";
 
 const Cart = () => {
+
+  const {cart} = useCartContext();
+  console.log("Drss", cart)
   return <Wrapper>
-    <h1>Hi</h1>
+    <div className="container">
+      <div className="cart-heading grid grid-five-column">
+            <p>Item</p>
+            <p className="cart_hide">
+              Price
+            </p>
+            <p>
+              Quantity
+            </p>
+            <p className="cart_hide">Subtotal</p>
+            <p>Remove</p>
+      </div>
+      <hr />
+      <div className="cart-item">
+        {cart.map((curElem) => {
+          return <CartItem  key={curElem.id} {...curElem}/>
+        })}
+      </div>
+    </div>
+
   </Wrapper>;
 };
 
