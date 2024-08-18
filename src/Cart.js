@@ -1,11 +1,19 @@
 import styled from "styled-components";
 import { useCartContext } from "./context/CartContext";
 import CartItem from "./components/CartItem";
+import { NavLink } from "react-router-dom";
+import { Button } from "./styles/Button";
 
 const Cart = () => {
 
-  const {cart} = useCartContext();
-  console.log("Drss", cart)
+  const {cart, clearCart} = useCartContext();
+
+if(cart.length === 0){
+  return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+    <h3>No Items in the Cart</h3>
+  </div>
+}
+
   return <Wrapper>
     <div className="container">
       <div className="cart-heading grid grid-five-column">
@@ -25,6 +33,15 @@ const Cart = () => {
           return <CartItem  key={curElem.id} {...curElem}/>
         })}
       </div>
+       <hr />
+        <div className="cart-two-button">
+          <NavLink to="/products">
+            <Button> Continue Shopping </Button>
+          </NavLink>
+          <Button className="btn btn-clear" onClick={clearCart}>
+            clear cart
+          </Button>
+        </div>
     </div>
 
   </Wrapper>;

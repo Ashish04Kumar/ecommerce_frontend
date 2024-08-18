@@ -4,6 +4,32 @@ const cartReducer = (state, action) => {
     let {id, color, amount, product} = action.payload
 
 
+    //  tackle existing product
+    let existingProduct = state.cart.find((curItem) => curItem.id === id + color)
+
+if(existingProduct){
+let updatedProduct = state.cart.map((curElem) => {
+if(curElem.id === id+color){
+  let newAmount = curElem.amount + amount;
+  if(newAmount >= curElem.max){
+    newAmount = curElem.max
+  }
+  return {
+  ...curElem,
+  amount: newAmount
+}
+}
+else{
+  return curElem
+}
+})
+
+return {
+  ...state,
+  cart: updatedProduct
+}
+}
+else{
     let cartProduct;
     cartProduct ={
         id: id + color,
@@ -23,6 +49,7 @@ const cartReducer = (state, action) => {
 
     return newState;
   }
+}
 
    if(action.type === "REMOVE_ITEM"){
     let updatedCart = state.cart.filter((curElem) => curElem.id !== action.payload)
@@ -32,6 +59,66 @@ const cartReducer = (state, action) => {
        }
    }
   
+    if(action.type === "CLEAR_CART"){
+    return {
+        ...state,
+        cart: []
+    }
+   }
+
+    // to set the increment and decrement
+  if (action.type === "SET_DECREMENT") {
+    let updatedProduct = state.cart.map((curElem) => {
+      if (curElem.id === action.payload) {
+        let decAmount = curElem.amount - 1;
+
+        if (decAmount <= 1) {
+          decAmount = 1;
+        }
+
+        return {
+          ...curElem,
+          amount: decAmount,
+        };
+      } else {
+        return curElem;
+      }
+    });
+    return { ...state, cart: updatedProduct };
+  }
+
+  if (action.type === "SET_INCREMENT") {
+    let updatedProduct = state.cart.map((curElem) => {
+      if (curElem.id === action.payload) {
+        let incAmount = curElem.amount + 1;
+
+        if (incAmount >= curElem.max) {
+          incAmount = curElem.max;
+        }
+
+        return {
+          ...curElem,
+          amount: incAmount,
+        };
+      } else {
+        return curElem;
+      }
+    });
+    return { ...state, cart: updatedProduct };
+  }
+
+  if(action.type === "CART_TOTAL_ITEM"){
+    let updatedItemValue = state.cart.reduce((initialVal, curItem) => {
+      let {amount} = curItem;
+      initialVal = initialVal + amount;
+      return initialVal
+    }, 0)
+    return {
+      ...state,
+      total_item: updatedItemValue
+    }
+  }
+   
 
   
     return state;
